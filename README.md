@@ -110,6 +110,8 @@ npm install
 
 # Start development server
 npm run dev
+
+> **Login popup note:** No separate database is required for the MT5 login popup; credentials can be saved locally in your browser. To use it, run the FastAPI backend and this web app (the mobile app is optional).
 ```
 
 Web app available at: `http://localhost:5173`

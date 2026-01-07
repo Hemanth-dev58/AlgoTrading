@@ -1,0 +1,5 @@
+# Windows-specific requirements
+# Install base requirements first: pip install -r requirements-base.txt
+# Then install Windows-specific: pip install -r requirements-windows.txt
+
+MetaTrader5==5.0.45

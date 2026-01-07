@@ -4,7 +4,25 @@ from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
 from datetime import datetime
-import MetaTrader5 as mt5
+
+# Try to import MetaTrader5, handle gracefully if not available
+try:
+    import MetaTrader5 as mt5
+    MT5_AVAILABLE = True
+except ImportError:
+    MT5_AVAILABLE = False
+    mt5 = None
+    # Define placeholder values for when MT5 is not available
+    class _MT5Placeholder:
+        TIMEFRAME_H1 = 60
+        TIMEFRAME_M1 = 1
+        TIMEFRAME_M5 = 5
+        TIMEFRAME_M15 = 15
+        TIMEFRAME_M30 = 30
+        TIMEFRAME_H4 = 240
+        TIMEFRAME_D1 = 1440
+    if mt5 is None:
+        mt5 = _MT5Placeholder()
 
 from app.services.mt5_connector import mt5_connector
 from app.core.config import settings
@@ -118,6 +136,8 @@ async def get_ticks(request: TicksRequest):
 async def get_status():
     """Get MT5 connection status"""
     return {
+        "mt5_available": MT5_AVAILABLE,
         "initialized": mt5_connector.initialized,
-        "connected": mt5_connector.connected
+        "connected": mt5_connector.connected,
+        "message": "MT5 module available" if MT5_AVAILABLE else "MT5 module not available (install on Windows for full functionality)"
     }

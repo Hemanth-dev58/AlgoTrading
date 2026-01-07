@@ -41,6 +41,41 @@ A comprehensive full-stack trading application for MetaTrader 5 with Python Fast
 
 ## 🛠️ Quick Start
 
+### ⚡ Super Quick Start (Automated)
+
+**Run everything with one command:**
+
+**Linux/macOS:**
+```bash
+git clone https://github.com/Hemanth-dev58/AlgoTrading.git
+cd AlgoTrading
+./run.sh
+```
+
+**Windows:**
+```cmd
+git clone https://github.com/Hemanth-dev58/AlgoTrading.git
+cd AlgoTrading
+run.bat
+```
+
+This will automatically:
+- ✅ Set up backend and frontend
+- ✅ Install all dependencies
+- ✅ Create environment files
+- ✅ Start both services
+
+**Access the app at:** http://localhost:5173 (Web) and http://localhost:8000/docs (API)
+
+📖 **For more details, see [QUICKSTART.md](QUICKSTART.md)**
+
+---
+
+### 📦 Manual Setup (Step by Step)
+
+<details>
+<summary>Click to expand manual setup instructions</summary>
+
 ### 1. Clone the Repository
 
 ```bash
@@ -60,7 +95,7 @@ cp .env.example .env
 # MT5_SERVER=your_broker_server
 ```
 
-### 3. Option A: Docker Deployment (Recommended)
+### 3. Option A: Docker Deployment
 
 ```bash
 # Start all services
@@ -75,7 +110,21 @@ docker-compose down
 
 The backend API will be available at `http://localhost:8000`
 
-### 3. Option B: Manual Setup
+### 3. Option B: Run with Setup Scripts
+
+**Backend (Terminal 1):**
+```bash
+./setup_backend.sh      # Linux/macOS
+setup_backend.bat       # Windows
+```
+
+**Web Frontend (Terminal 2):**
+```bash
+./setup_web.sh          # Linux/macOS
+setup_web.bat           # Windows
+```
+
+### 3. Option C: Fully Manual Setup
 
 #### Backend Setup
 
@@ -135,6 +184,8 @@ npm start
 npm run android  # Android
 npm run ios      # iOS (Mac only)
 ```
+
+</details>
 
 ## 📁 Project Structure
 

@@ -1,7 +1,7 @@
 """Application configuration"""
 
 from pydantic_settings import BaseSettings
-from typing import List
+from typing import List, Union
 
 
 class Settings(BaseSettings):
@@ -28,8 +28,8 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     
-    # CORS
-    CORS_ORIGINS: List[str] = ["http://localhost:3000", "http://localhost:19006"]
+    # CORS - can be either a comma-separated string or a list
+    CORS_ORIGINS: Union[str, List[str]] = "http://localhost:3000,http://localhost:5173,http://localhost:19006"
     
     # Logging
     LOG_LEVEL: str = "INFO"
@@ -37,6 +37,13 @@ class Settings(BaseSettings):
     class Config:
         env_file = ".env"
         case_sensitive = True
+    
+    @property
+    def cors_origins_list(self) -> List[str]:
+        """Convert CORS_ORIGINS to a list if it's a string"""
+        if isinstance(self.CORS_ORIGINS, str):
+            return [origin.strip() for origin in self.CORS_ORIGINS.split(",")]
+        return self.CORS_ORIGINS
 
 
 settings = Settings()

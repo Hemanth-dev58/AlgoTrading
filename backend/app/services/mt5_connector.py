@@ -1,6 +1,13 @@
 """MetaTrader 5 Connector Service"""
 
-import MetaTrader5 as mt5
+# Try to import MetaTrader5, but handle gracefully if not available
+try:
+    import MetaTrader5 as mt5
+    MT5_AVAILABLE = True
+except ImportError:
+    MT5_AVAILABLE = False
+    mt5 = None
+
 import logging
 from typing import Optional, List, Dict, Any
 from datetime import datetime
@@ -10,6 +17,13 @@ from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 
+if not MT5_AVAILABLE:
+    logger.warning(
+        "MetaTrader5 module not available. "
+        "MT5 functionality will be disabled. "
+        "Install MetaTrader5 package on Windows for full functionality."
+    )
+
 
 class MT5Connector:
     """MetaTrader 5 connection and trading operations"""
@@ -17,6 +31,13 @@ class MT5Connector:
     def __init__(self):
         self.initialized = False
         self.connected = False
+        self.mt5_available = MT5_AVAILABLE
+        
+        if not MT5_AVAILABLE:
+            logger.warning(
+                "MT5Connector initialized without MetaTrader5 support. "
+                "All MT5 operations will fail gracefully."
+            )
     
     def initialize(self, path: Optional[str] = None, timeout: int = 60000) -> bool:
         """
@@ -29,6 +50,10 @@ class MT5Connector:
         Returns:
             bool: True if successful
         """
+        if not MT5_AVAILABLE:
+            logger.error("MetaTrader5 module not available")
+            return False
+            
         try:
             mt5_path = path or settings.MT5_PATH or None
             if mt5_path:
@@ -63,6 +88,10 @@ class MT5Connector:
         Returns:
             bool: True if successful
         """
+        if not MT5_AVAILABLE:
+            logger.error("MetaTrader5 module not available")
+            return False
+            
         try:
             if not self.initialized:
                 if not self.initialize():
@@ -84,6 +113,10 @@ class MT5Connector:
     
     def shutdown(self) -> None:
         """Shutdown MT5 connection"""
+        if not MT5_AVAILABLE:
+            logger.warning("MetaTrader5 module not available")
+            return
+            
         try:
             mt5.shutdown()
             self.initialized = False
@@ -99,6 +132,10 @@ class MT5Connector:
         Returns:
             dict: Account information or None if failed
         """
+        if not MT5_AVAILABLE:
+            logger.error("MetaTrader5 module not available")
+            return None
+            
         try:
             if not self.connected:
                 logger.warning("Not connected to MT5")
@@ -125,6 +162,10 @@ class MT5Connector:
         Returns:
             dict: Symbol information or None if failed
         """
+        if not MT5_AVAILABLE:
+            logger.error("MetaTrader5 module not available")
+            return None
+            
         try:
             if not self.connected:
                 logger.warning("Not connected to MT5")
@@ -160,6 +201,10 @@ class MT5Connector:
         Returns:
             list: List of rate dictionaries or None if failed
         """
+        if not MT5_AVAILABLE:
+            logger.error("MetaTrader5 module not available")
+            return None
+            
         try:
             if not self.connected:
                 logger.warning("Not connected to MT5")
@@ -182,7 +227,7 @@ class MT5Connector:
         self,
         symbol: str,
         count: int = 100,
-        flags: int = mt5.COPY_TICKS_ALL
+        flags: Optional[int] = None
     ) -> Optional[List[Dict[str, Any]]]:
         """
         Get tick data
@@ -190,15 +235,23 @@ class MT5Connector:
         Args:
             symbol: Symbol name
             count: Number of ticks
-            flags: Tick type flags
+            flags: Tick type flags (defaults to mt5.COPY_TICKS_ALL if available)
             
         Returns:
             list: List of tick dictionaries or None if failed
         """
+        if not MT5_AVAILABLE:
+            logger.error("MetaTrader5 module not available")
+            return None
+            
         try:
             if not self.connected:
                 logger.warning("Not connected to MT5")
                 return None
+            
+            # Use mt5.COPY_TICKS_ALL as default if flags not provided
+            if flags is None:
+                flags = mt5.COPY_TICKS_ALL
             
             ticks = mt5.copy_ticks_from(symbol, datetime.now(), count, flags)
             if ticks is None or len(ticks) == 0:
@@ -223,6 +276,10 @@ class MT5Connector:
         Returns:
             dict: Order result or None if failed
         """
+        if not MT5_AVAILABLE:
+            logger.error("MetaTrader5 module not available")
+            return None
+            
         try:
             if not self.connected:
                 logger.warning("Not connected to MT5")
@@ -249,6 +306,10 @@ class MT5Connector:
         Returns:
             list: List of position dictionaries or None if failed
         """
+        if not MT5_AVAILABLE:
+            logger.error("MetaTrader5 module not available")
+            return None
+            
         try:
             if not self.connected:
                 logger.warning("Not connected to MT5")
@@ -286,6 +347,10 @@ class MT5Connector:
         Returns:
             list: List of deal dictionaries or None if failed
         """
+        if not MT5_AVAILABLE:
+            logger.error("MetaTrader5 module not available")
+            return None
+            
         try:
             if not self.connected:
                 logger.warning("Not connected to MT5")

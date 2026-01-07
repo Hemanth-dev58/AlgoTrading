@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database (optional - can use SQLite instead)
+  postgres:
+    image: postgres:15-alpine
+    container_name: algotrading-postgres
+    environment:
+      POSTGRES_USER: trading
+      POSTGRES_PASSWORD: trading123
+      POSTGRES_DB: algotrading
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - algotrading-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U trading"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: algotrading-backend
+    environment:
+      # MT5 Configuration
+      MT5_LOGIN: ${MT5_LOGIN:-12345678}
+      MT5_PASSWORD: ${MT5_PASSWORD:-YourPassword}
+      MT5_SERVER: ${MT5_SERVER:-MetaQuotes-Demo}
+      MT5_PATH: ${MT5_PATH:-}
+      
+      # Database Configuration (PostgreSQL)
+      DATABASE_TYPE: postgresql
+      DATABASE_URL: postgresql://trading:trading123@postgres:5432/algotrading
+      
+      # Or use SQLite (comment out above and uncomment below)
+      # DATABASE_TYPE: sqlite
+      # DATABASE_URL: sqlite:///./trading.db
+      
+      # API Configuration
+      API_HOST: 0.0.0.0
+      API_PORT: 8000
+      
+      # Security
+      SECRET_KEY: ${SECRET_KEY:-change-this-secret-key-in-production}
+      
+      # CORS
+      CORS_ORIGINS: http://localhost:3000,http://localhost:5173,http://localhost:19006
+      
+      # Logging
+      LOG_LEVEL: INFO
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - backend_data:/app/data
+    networks:
+      - algotrading-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  backend_data:
+
+networks:
+  algotrading-network:
+    driver: bridge

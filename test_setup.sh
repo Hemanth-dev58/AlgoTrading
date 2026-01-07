@@ -92,7 +92,8 @@ echo ""
 
 # Test 3: Start backend briefly to test
 echo "Test 3: Testing backend startup..."
-timeout 5 uvicorn app.main:app --host 0.0.0.0 --port 8000 > /tmp/backend_test.log 2>&1 || true
+# Use longer timeout for first-time setup
+timeout 10 uvicorn app.main:app --host 0.0.0.0 --port 8000 > /tmp/backend_test.log 2>&1 || true
 if grep -q "Application startup complete" /tmp/backend_test.log; then
     success "Backend starts successfully"
     warning "MT5 module not available on this platform (expected on Linux/Mac)"

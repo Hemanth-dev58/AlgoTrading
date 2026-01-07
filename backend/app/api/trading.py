@@ -11,17 +11,8 @@ try:
     MT5_AVAILABLE = True
 except ImportError:
     MT5_AVAILABLE = False
-    mt5 = None
-    # Define placeholder values for when MT5 is not available
-    class _MT5Placeholder:
-        TRADE_ACTION_DEAL = 1
-        ORDER_TYPE_BUY = 0
-        ORDER_TYPE_SELL = 1
-        ORDER_FILLING_FOK = 0
-        ORDER_FILLING_IOC = 1
-        ORDER_FILLING_RETURN = 2
-    if mt5 is None:
-        mt5 = _MT5Placeholder()
+    # Use placeholder constants when MT5 is not available
+    from app.core import mt5_constants as mt5
 
 from app.services.mt5_connector import mt5_connector
 

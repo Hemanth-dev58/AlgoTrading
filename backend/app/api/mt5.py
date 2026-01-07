@@ -11,18 +11,8 @@ try:
     MT5_AVAILABLE = True
 except ImportError:
     MT5_AVAILABLE = False
-    mt5 = None
-    # Define placeholder values for when MT5 is not available
-    class _MT5Placeholder:
-        TIMEFRAME_H1 = 60
-        TIMEFRAME_M1 = 1
-        TIMEFRAME_M5 = 5
-        TIMEFRAME_M15 = 15
-        TIMEFRAME_M30 = 30
-        TIMEFRAME_H4 = 240
-        TIMEFRAME_D1 = 1440
-    if mt5 is None:
-        mt5 = _MT5Placeholder()
+    # Use placeholder constants when MT5 is not available
+    from app.core import mt5_constants as mt5
 
 from app.services.mt5_connector import mt5_connector
 from app.core.config import settings

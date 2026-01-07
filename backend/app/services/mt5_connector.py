@@ -6,7 +6,8 @@ try:
     MT5_AVAILABLE = True
 except ImportError:
     MT5_AVAILABLE = False
-    mt5 = None
+    # Use placeholder constants when MT5 is not available
+    from app.core import mt5_constants as mt5
 
 import logging
 from typing import Optional, List, Dict, Any

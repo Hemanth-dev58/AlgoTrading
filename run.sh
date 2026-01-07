@@ -86,12 +86,32 @@ case "$OS" in
             konsole --title "AlgoTrading Web" -e bash -c "cd '$SCRIPT_DIR' && ./setup_web.sh; exec bash" &
         else
             echo "⚠️  No suitable terminal emulator found."
-            echo "Running in sequential mode (not recommended)..."
             echo ""
-            echo "You can run each component manually:"
-            echo "  Terminal 1: ./setup_backend.sh"
-            echo "  Terminal 2: ./setup_web.sh"
-            exit 1
+            echo "Running components manually in this terminal:"
+            echo ""
+            
+            # Offer to run in sequential mode
+            read -p "Start backend first? (y/n): " -n 1 -r
+            echo
+            if [[ $REPLY =~ ^[Yy]$ ]]; then
+                echo "Starting backend... (Press Ctrl+C to stop and continue)"
+                cd "$SCRIPT_DIR"
+                ./setup_backend.sh &
+                BACKEND_PID=$!
+                echo "Backend PID: $BACKEND_PID"
+                echo ""
+                echo "Backend is running. To start web frontend:"
+                echo "  Open a new terminal and run: cd '$SCRIPT_DIR' && ./setup_web.sh"
+                echo ""
+                echo "Press Ctrl+C to stop backend..."
+                wait $BACKEND_PID
+            else
+                echo ""
+                echo "Please run components manually:"
+                echo "  Terminal 1: cd '$SCRIPT_DIR' && ./setup_backend.sh"
+                echo "  Terminal 2: cd '$SCRIPT_DIR' && ./setup_web.sh"
+                exit 0
+            fi
         fi
         ;;
     Darwin*)
@@ -107,9 +127,9 @@ case "$OS" in
         echo "⚠️  Unsupported operating system: $OS"
         echo ""
         echo "Please run each component manually:"
-        echo "  Terminal 1: ./setup_backend.sh"
-        echo "  Terminal 2: ./setup_web.sh"
-        exit 1
+        echo "  Terminal 1: cd '$SCRIPT_DIR' && ./setup_backend.sh"
+        echo "  Terminal 2: cd '$SCRIPT_DIR' && ./setup_web.sh"
+        exit 0
         ;;
 esac
 

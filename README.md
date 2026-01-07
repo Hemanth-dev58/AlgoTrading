@@ -41,6 +41,41 @@ A comprehensive full-stack trading application for MetaTrader 5 with Python Fast
 
 ## 🛠️ Quick Start
 
+### ⚡ Super Quick Start (Automated)
+
+**Run everything with one command:**
+
+**Linux/macOS:**
+```bash
+git clone https://github.com/Hemanth-dev58/AlgoTrading.git
+cd AlgoTrading
+./run.sh
+```
+
+**Windows:**
+```cmd
+git clone https://github.com/Hemanth-dev58/AlgoTrading.git
+cd AlgoTrading
+run.bat
+```
+
+This will automatically:
+- ✅ Set up backend and frontend
+- ✅ Install all dependencies
+- ✅ Create environment files
+- ✅ Start both services
+
+**Access the app at:** http://localhost:5173 (Web) and http://localhost:8000/docs (API)
+
+📖 **For more details, see [QUICKSTART.md](QUICKSTART.md)**
+
+---
+
+### 📦 Manual Setup (Step by Step)
+
+<details>
+<summary>Click to expand manual setup instructions</summary>
+
 ### 1. Clone the Repository
 
 ```bash
@@ -60,7 +95,7 @@ cp .env.example .env
 # MT5_SERVER=your_broker_server
 ```
 
-### 3. Option A: Docker Deployment (Recommended)
+### 3. Option A: Docker Deployment
 
 ```bash
 # Start all services
@@ -75,7 +110,21 @@ docker-compose down
 
 The backend API will be available at `http://localhost:8000`
 
-### 3. Option B: Manual Setup
+### 3. Option B: Run with Setup Scripts
+
+**Backend (Terminal 1):**
+```bash
+./setup_backend.sh      # Linux/macOS
+setup_backend.bat       # Windows
+```
+
+**Web Frontend (Terminal 2):**
+```bash
+./setup_web.sh          # Linux/macOS
+setup_web.bat           # Windows
+```
+
+### 3. Option C: Fully Manual Setup
 
 #### Backend Setup
 
@@ -135,6 +184,8 @@ npm start
 npm run android  # Android
 npm run ios      # iOS (Mac only)
 ```
+
+</details>
 
 ## 📁 Project Structure
 
@@ -361,9 +412,30 @@ eas submit --platform all
 
 ## 📚 Documentation
 
+- [QUICKSTART.md](QUICKSTART.md) - **Start here!** Quick setup guide with automated scripts
 - [Backend README](backend/README.md) - Backend setup and API details
 - [Web README](web/README.md) - Web frontend development guide
 - [Mobile README](mobile/README.md) - Mobile app development guide
+
+## 🖥️ Platform-Specific Notes
+
+### Windows
+- ✅ Full MetaTrader 5 support
+- ✅ All features work natively
+- Use `run.bat` or `setup_backend.bat`/`setup_web.bat`
+
+### Linux/macOS
+- ⚠️ MetaTrader 5 module not available (Windows-only)
+- ✅ Backend runs in limited/demo mode (all API endpoints work)
+- ✅ Web frontend works perfectly
+- ✅ Great for development and testing
+- 💡 For full MT5 functionality: use Docker or run on Windows
+- Use `./run.sh` or `./setup_backend.sh`/`./setup_web.sh`
+
+### Docker (All Platforms)
+- ✅ Consistent environment across all platforms
+- ⚠️ MT5 connectivity may require additional configuration
+- See `docker-compose.yml` for details
 
 ## 🤝 Contributing
 

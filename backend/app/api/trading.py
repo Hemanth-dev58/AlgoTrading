@@ -4,7 +4,15 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
 from datetime import datetime, timedelta
-import MetaTrader5 as mt5
+
+# Try to import MetaTrader5, handle gracefully if not available
+try:
+    import MetaTrader5 as mt5
+    MT5_AVAILABLE = True
+except ImportError:
+    MT5_AVAILABLE = False
+    # Use placeholder constants when MT5 is not available
+    from app.core import mt5_constants as mt5
 
 from app.services.mt5_connector import mt5_connector
 

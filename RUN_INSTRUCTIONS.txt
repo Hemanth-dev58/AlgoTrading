@@ -1,0 +1,87 @@
+========================================================================================
+                    ALGOTRADING APPLICATION - HOW TO RUN
+========================================================================================
+
+SUPER QUICK START (One Command):
+---------------------------------
+
+Linux/macOS:
+    ./run.sh
+
+Windows:
+    run.bat
+
+That's it! The application will start automatically.
+
+
+WHAT GETS STARTED:
+------------------
+1. Backend API Server (http://localhost:8000)
+   - API Documentation: http://localhost:8000/docs
+   - Health Check: http://localhost:8000/health
+
+2. Web Frontend (http://localhost:5173)
+   - Trading Dashboard
+   - Charts and Indicators
+   - Order Management
+
+
+VERIFY SETUP (Optional):
+------------------------
+Before running, you can verify everything is configured correctly:
+
+    ./test_setup.sh
+
+This checks all prerequisites and tests that both backend and frontend work.
+
+
+ALTERNATIVE - RUN COMPONENTS SEPARATELY:
+----------------------------------------
+
+Backend Only (Terminal 1):
+    ./setup_backend.sh       # Linux/macOS
+    setup_backend.bat        # Windows
+
+Web Frontend (Terminal 2):
+    ./setup_web.sh           # Linux/macOS
+    setup_web.bat            # Windows
+
+
+FIRST TIME SETUP:
+-----------------
+The scripts automatically handle:
+✓ Python virtual environment creation
+✓ Installing all dependencies
+✓ Creating .env configuration files
+✓ Database initialization
+
+This may take a few minutes the first time. Subsequent starts are much faster!
+
+
+PLATFORM NOTES:
+--------------
+- Windows: Full MetaTrader 5 support
+- Linux/Mac: Runs in demo mode (MT5 not available, which is expected)
+- Docker: Available via docker-compose.yml
+
+
+NEED HELP?
+----------
+See the documentation:
+- QUICKSTART.md - Simple getting started guide
+- README.md - Full documentation
+- IMPLEMENTATION_SUMMARY.md - Technical details
+
+Or check: http://localhost:8000/docs for API documentation
+
+
+TROUBLESHOOTING:
+----------------
+If scripts don't run, make them executable:
+    chmod +x *.sh
+
+If ports are in use, check:
+    - Port 8000 (Backend)
+    - Port 5173 (Web Frontend)
+
+========================================================================================

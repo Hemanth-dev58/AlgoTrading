@@ -133,12 +133,6 @@ npm run test:coverage
 
 ## 🏗️ Build
 
-### Development Build
-
-```bash
-npm run build
-```
-
 ### Production Build
 
 ```bash

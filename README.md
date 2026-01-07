@@ -412,9 +412,30 @@ eas submit --platform all
 
 ## 📚 Documentation
 
+- [QUICKSTART.md](QUICKSTART.md) - **Start here!** Quick setup guide with automated scripts
 - [Backend README](backend/README.md) - Backend setup and API details
 - [Web README](web/README.md) - Web frontend development guide
 - [Mobile README](mobile/README.md) - Mobile app development guide
+
+## 🖥️ Platform-Specific Notes
+
+### Windows
+- ✅ Full MetaTrader 5 support
+- ✅ All features work natively
+- Use `run.bat` or `setup_backend.bat`/`setup_web.bat`
+
+### Linux/macOS
+- ⚠️ MetaTrader 5 module not available (Windows-only)
+- ✅ Backend runs in limited/demo mode (all API endpoints work)
+- ✅ Web frontend works perfectly
+- ✅ Great for development and testing
+- 💡 For full MT5 functionality: use Docker or run on Windows
+- Use `./run.sh` or `./setup_backend.sh`/`./setup_web.sh`
+
+### Docker (All Platforms)
+- ✅ Consistent environment across all platforms
+- ⚠️ MT5 connectivity may require additional configuration
+- See `docker-compose.yml` for details
 
 ## 🤝 Contributing
 

@@ -10,6 +10,22 @@ Before running the application, ensure you have:
 - **Node.js 16+** and npm installed
 - **MetaTrader 5** terminal (optional for testing, required for actual trading)
 
+### Testing Without MetaTrader 5
+
+The application can run in a **limited demo mode** without MetaTrader 5 installed:
+- ✅ Backend API server will start successfully
+- ✅ Web frontend will work
+- ✅ You can explore the UI and features
+- ❌ MT5 trading functions will not work (expected behavior)
+- ℹ️ Perfect for development, testing, or running on Linux/Mac
+
+To verify your setup works:
+```bash
+./test_setup.sh
+```
+
+This script will check all prerequisites and verify that both backend and frontend can start successfully.
+
 ## Quick Start (3 Simple Steps)
 
 ### Option 1: Automated Setup (Recommended)
@@ -128,13 +144,32 @@ The default configuration uses:
 
 ### Permission denied (Linux/macOS)
 ```bash
-chmod +x run.sh setup_backend.sh setup_web.sh
+chmod +x run.sh setup_backend.sh setup_web.sh test_setup.sh
 ```
 
 ### Backend won't connect to MT5
-- Make sure MetaTrader 5 terminal is installed
+- Make sure MetaTrader 5 terminal is installed (Windows only)
 - Update backend/.env with your MT5 credentials
 - For testing without MT5, the app will work in limited mode
+- On Linux/Mac, MT5 is not available - this is expected and normal
+
+### "MetaTrader5 module not available" warning
+- This is **normal** on Linux and macOS systems
+- The application will run in demo/testing mode
+- All API endpoints will work except MT5-specific trading functions
+- For full MT5 functionality, run on Windows or use Docker
+
+### Verify your setup
+Run the test script to check everything is working:
+```bash
+./test_setup.sh
+```
+
+This will verify:
+- All prerequisites are installed
+- Backend can start successfully
+- Web frontend can build
+- All setup scripts are ready
 
 ## Next Steps
 

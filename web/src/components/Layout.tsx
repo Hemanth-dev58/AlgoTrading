@@ -63,7 +63,7 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
         <Box sx={{ width: 250 }} onClick={() => setDrawerOpen(false)}>
           <List>
             {menuItems.map((item) => (
-              <ListItem button key={item.text} onClick={() => navigate(item.path)}>
+              <ListItem key={item.text} onClick={() => navigate(item.path)}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItem>
